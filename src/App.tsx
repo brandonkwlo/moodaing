@@ -1,49 +1,65 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+//import { useState } from "react";
 import "./App.css";
+import Switch from "../src/components/toggle";
+import HippoLogo from "../public/hippo.png";
+//import PredictiveInput from "../src/components/PredictiveInput.tsx";
 
 function App() {
-  const [color, setColor] = useState("");
-
-  const onclick = async () => {
+  const handleToggle = async (isOn: boolean) => {
     let [tab] = await chrome.tabs.query({ active: true });
-    chrome.scripting.executeScript<string[], void>({
-      target: { tabId: tab.id! },
-      args: [color],
-      func: (color) => {
-        document.body.style.backgroundColor = color;
-      },
-    });
+    if (isOn) {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id! },
+        func: () => {
+          alert("Its on!");
+        },
+      });
+    } else {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id! },
+        func: () => {
+          alert("Its off dawg");
+        },
+      });
+    }
   };
-
+  // Note 2-23-25 11:06 AM: now when I toggle the switch it should allow AI assistance in line auto rec for any
+  // text area.
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <img src={HippoLogo} className="logo" alt="Hippo logo" />
       </div>
-      <h1>Vite + React</h1>
+      <h1>Moo DAIng </h1>
       <div className="card">
-        <input
-          type="color"
-          onChange={(e) => setColor(e.currentTarget.value)}
-          value={color}
-        />
-        <button onClick={() => onclick()}> Click Me! </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <Switch onToggle={handleToggle} defaultChecked={false} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <p className="read-the-docs">Toggle for AI assistance</p>
     </>
   );
 }
 
 export default App;
+/*
+function App() {
+  const [isPredictiveEnabled, setIsPredictiveEnabled] = useState(false);
+
+  const handleToggle = (isOn: boolean) => {
+    setIsPredictiveEnabled(isOn);
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <div style={{ marginBottom: "20px" }}>
+        <Switch onToggle={handleToggle} defaultChecked={false} />
+        <span style={{ marginLeft: "10px" }}>
+          Predictive Text: {isPredictiveEnabled ? "On" : "Off"}
+        </span>
+      </div>
+      <PredictiveInput isPredictiveEnabled={isPredictiveEnabled} />
+    </div>
+  );
+}
+
+export default App;
+*/
