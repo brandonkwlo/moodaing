@@ -1,19 +1,17 @@
 import styled from "styled-components";
-import { useState, FC, ChangeEvent } from "react";
+//import { FC, ChangeEvent } from "react";
 
+import { ChangeEvent } from "react";
 interface SwitchProps {
   onToggle: (isOn: boolean) => void;
-  defaultChecked?: boolean;
+  isChecked?: boolean;
 }
 
-const Switch: FC<SwitchProps> = ({ onToggle, defaultChecked = false }) => {
-  const [isChecked, setIsChecked] = useState(defaultChecked);
-
+const Switch: React.FC<SwitchProps> = ({ onToggle, isChecked = false}) => {
   const handleToggle = (event: ChangeEvent<HTMLInputElement>) => {
     const newState = event.target.checked;
-    setIsChecked(newState);
     onToggle(newState);
-  };
+  }
 
   return (
     <StyledWrapper>
