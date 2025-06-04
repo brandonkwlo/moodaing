@@ -1,17 +1,42 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-//import { FC, ChangeEvent } from "react";
-
 import { ChangeEvent } from "react";
-interface SwitchProps {
-  onToggle: (isOn: boolean) => void;
-  isChecked?: boolean;
-}
 
-const Switch: React.FC<SwitchProps> = ({ onToggle, isChecked = false}) => {
+const Switch = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  useEffect(() => {
+    if (
+      typeof chrome !== "undefined" &&
+      chrome.storage &&
+      chrome.storage.local
+    ) {
+      chrome.storage.local.get(["isChecked"], (result) => {
+        if (result.isChecked !== undefined) {
+          setIsChecked(result.isChecked);
+        }
+      });
+    }
+  }, []);
+
   const handleToggle = (event: ChangeEvent<HTMLInputElement>) => {
     const newState = event.target.checked;
-    onToggle(newState);
-  }
+    setIsChecked(newState);
+
+    if (
+      typeof chrome !== "undefined" &&
+      chrome.storage &&
+      chrome.storage.local
+    ) {
+      chrome.storage.local.set({ isChecked: newState }, () => {
+        if (chrome.runtime.lastError) {
+          console.error("Error saving toggle state:", chrome.runtime.lastError);
+        }
+      });
+    } else {
+      console.warn("Chrome storage API not available");
+    }
+  };
 
   return (
     <StyledWrapper>

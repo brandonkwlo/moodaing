@@ -5,7 +5,8 @@
   "action": {
     "default_popup": "index.html"
   },
-  "host_permissions": ["http://*/*", "https://*/*"], 
+  "permissions": ["scripting", "storage"], 
+  "host_permissions": ["http://*/*", "https://*/*"],
   "icons": {
     "16": "hippo.png",
     "32": "hippo.png"
