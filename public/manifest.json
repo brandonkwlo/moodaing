@@ -5,10 +5,14 @@
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": ["scripting", "storage"], 
+  "permissions": ["scripting", "storage", "contextMenus"],
   "host_permissions": ["http://*/*", "https://*/*"],
   "icons": {
     "16": "hippo.png",
     "32": "hippo.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
   }
 }

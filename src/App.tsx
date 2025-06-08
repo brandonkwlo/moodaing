@@ -5,6 +5,10 @@ import HippoLogo from "../public/hippo.png";
 
 // TODO:
 // - Add AI assistance website (or another context script) for the user
+//    - add to context menu
+//      - have different sized pics (16 by 16 for context menu)
+//    - lead context menu to another popup near the bottom right corner
+//        of browser screen where AI pops up
 
 function App() {
   return (
