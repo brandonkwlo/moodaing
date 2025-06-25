@@ -10,6 +10,8 @@ interface WindowProps {
 const Window = ({ context, contextType }: WindowProps) => {
   const [inputValue, setInputValue] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const handleSubmit = async () => {
     setIsProcessing(true);
@@ -24,46 +26,73 @@ const Window = ({ context, contextType }: WindowProps) => {
       setIsProcessing(false);
     }
   };
+
+  const handleClose = () => {
+    setIsVisible(false);
+
+    const element = document.getElementById("moodaing-chat");
+    if (element) {
+      element.remove();
+    }
+  };
+
+  const handleMinimize = () => {
+    setIsMinimized(true);
+  };
+
+  const handleExpand = () => {
+    setIsMinimized(false);
+  };
+
+  if (!isVisible) return null;
+
   return (
     <StyledWrapper>
-      <div className="window">
-        <div className="window-header">
-          <span className="red" />
-          <span className="yellow" />
+      {isMinimized ? (
+        <div className="minimized-bar" onClick={handleExpand}>
+          <span className="minimized-title"> MoodAIng Chat</span>
         </div>
-        <span className="window-title">MoodAIng Chat</span>
-        <p className="window-description">Here to help!</p>
-        <div className="input-field">
-          <textarea
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit();
-              }
-            }}
-            placeholder="Type something..."
-            disabled={isProcessing}
-            style={{
-              width: "100%",
-              height: "100%",
-              background: "transparent",
-              color: "#dcdcdc",
-              border: "none",
-              outline: "none",
-              fontSize: "14px",
-              resize: "none",
-              fontFamily: "inherit",
-              lineHeight: "1.5",
-              opacity: isProcessing ? 0.6 : 1,
-            }}
-          />
+      ) : (
+        <div className="window">
+          <div className="window-header">
+            <span className="red" onClick={handleClose} />
+            <span className="yellow" onClick={handleMinimize} />
+          </div>
+          <span className="window-title">MoodAIng Chat</span>
+          <p className="window-description">Here to help!</p>
+          <div className="input-field">
+            <textarea
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
+              placeholder="Type something..."
+              disabled={isProcessing}
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "transparent",
+                color: "#dcdcdc",
+                border: "none",
+                outline: "none",
+                fontSize: "14px",
+                resize: "none",
+                fontFamily: "inherit",
+                lineHeight: "1.5",
+                opacity: isProcessing ? 0.6 : 1,
+              }}
+            />
+          </div>
+          {isProcessing && (
+            <div className="processing-indicator">Processing... </div>
+          )}
         </div>
-        {isProcessing && (
-          <div className="processing-indicator">Processing... </div>
-        )}
-      </div>{" "}
+      )}
+      ;
     </StyledWrapper>
   );
 };
@@ -105,6 +134,12 @@ const StyledWrapper = styled.div`
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .window-header span:hover {
+    opacity: 0.7;
   }
 
   .window-header .red {
@@ -113,6 +148,35 @@ const StyledWrapper = styled.div`
 
   .window-header .yellow {
     background-color: #ffbd2e;
+  }
+
+  .minimized-bar {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    background-color: #000;
+    border: 1px solid #0d1117;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    z-index: 9999;
+    transition: all 0.2s;
+    opacity: 0.9;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+  }
+
+  .minimized-bar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    opacity: 1;
+  }
+
+  .minimized-title {
+    color: #e6e6ef;
+    font-size: 14px;
+    font-weight: 500;
   }
 
   .window-title {
