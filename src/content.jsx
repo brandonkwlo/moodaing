@@ -1,4 +1,4 @@
-import Card from "./components/Card";
+import Window from "./components/ai_window";
 import { createRoot } from "react-dom/client";
 // import React from "react";
 
@@ -10,8 +10,11 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     console.log("Content script: Context Type:", message.contextType);
 
     const domNode = document.createElement("div");
+    domNode.id = "moodaing-chat";
     const root = createRoot(domNode);
-    root.render(<Card />);
+    root.render(
+      <Window context={message.context} contextType={message.contextType} />
+    );
     document.body.appendChild(domNode);
 
     sendResponse({ received: true });

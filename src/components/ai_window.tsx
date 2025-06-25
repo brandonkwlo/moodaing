@@ -1,36 +1,69 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { processWithAI } from "../aiService";
 
-const Window = () => {
+interface WindowProps {
+  context: string;
+  contextType: string;
+}
+
+const Window = ({ context, contextType }: WindowProps) => {
   const [inputValue, setInputValue] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
+  const handleSubmit = async () => {
+    setIsProcessing(true);
+
+    try {
+      await processWithAI(inputValue, context, contextType);
+
+      setInputValue("");
+    } catch (error) {
+      console.error("Error processing with AI:", error);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
   return (
     <StyledWrapper>
       <div className="window">
         <div className="window-header">
           <span className="red" />
           <span className="yellow" />
-          <span className="green" />
         </div>
-        <span className="window-title">AI Chat</span>
+        <span className="window-title">MoodAIng Chat</span>
         <p className="window-description">Here to help!</p>
-        <div className="code-editor">
-          <input
-            type="text"
+        <div className="input-field">
+          <textarea
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit();
+              }
+            }}
             placeholder="Type something..."
+            disabled={isProcessing}
             style={{
               width: "100%",
+              height: "100%",
               background: "transparent",
               color: "#dcdcdc",
               border: "none",
               outline: "none",
               fontSize: "14px",
+              resize: "none",
+              fontFamily: "inherit",
+              lineHeight: "1.5",
+              opacity: isProcessing ? 0.6 : 1,
             }}
           />
         </div>
-      </div>
+        {isProcessing && (
+          <div className="processing-indicator">Processing... </div>
+        )}
+      </div>{" "}
     </StyledWrapper>
   );
 };
@@ -82,10 +115,6 @@ const StyledWrapper = styled.div`
     background-color: #ffbd2e;
   }
 
-  .window-header .green {
-    background-color: #28c941;
-  }
-
   .window-title {
     font-size: 18px;
     font-weight: bold;
@@ -108,7 +137,7 @@ const StyledWrapper = styled.div`
     margin-block-end: 12px;
     color: #dcdcdc;
   }
-  .code-editor {
+  .input-field {
     background-color: #0d1117;
     color: #dcdcdc;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -118,23 +147,22 @@ const StyledWrapper = styled.div`
     line-height: 1.5;
     border-radius: 5px;
     padding: 15px;
-    overflow: auto;
-    height: 150px;
+    overflow: clip;
+    height: 100px;
     border: 1px solid #333;
   }
 
-  .code-editor::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  .code-editor::-webkit-scrollbar-thumb {
-    background: #555;
-    border-radius: 4px;
-  }
-
-  .code-editor pre code {
-    white-space: pre-wrap;
-    display: block;
+  .input-field textarea {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: #dcdcdc;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    resize: none;
+    font-family: inherit;
+    line-height: 1.5;
   }
 `;
 

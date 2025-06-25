@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "public/background.js", "src/content.js"]
+  "include": ["src", "public/background.js", "src/content.jsx"]
 }
