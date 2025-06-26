@@ -1,4 +1,3 @@
-// server.js
 const express = require("express");
 const cors = require("cors");
 const Groq = require("groq-sdk");
@@ -15,7 +14,18 @@ app.post("/api/ai", async (req, res) => {
   try {
     const response = await groq.chat.completions.create({
       messages: [
-        { role: "system", content: "You are a helpful AI assistant." },
+        {
+          role: "system",
+          content: `You are a helpful AI assistant. You are tasked with performing one of the three tasks depending on 
+            the prompt: given a selection, given a page, or discussing with the user. Given the context from the 
+            user, you are to provide a response. 
+            
+            In your response: 
+            - Give a brief response. The response should be 4 sentences max 
+            - Do not mention the given context in your response
+            - Do not mention that you are checking or what the user has asked in your response
+            `,
+        },
         { role: "user", content: prompt },
       ],
       model: "deepseek-r1-distill-llama-70b",

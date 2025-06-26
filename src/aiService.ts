@@ -20,5 +20,6 @@ Please provide a helpful response based on the context and user input above.
   });
 
   const data = await res.json();
+  console.log(data.response);
   return { response: data.response };
 }

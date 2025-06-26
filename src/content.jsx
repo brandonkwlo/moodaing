@@ -1,6 +1,5 @@
 import Window from "./components/ai_window";
 import { createRoot } from "react-dom/client";
-// import React from "react";
 
 console.log("Content script loaded!");
 
