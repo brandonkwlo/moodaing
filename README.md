@@ -33,6 +33,9 @@ $ cd moodaing
 # Install dependencies
 $ npm install
 
+# Build the extension
+$ npm run build
+
 # Run the backend server to run Groq
 $ cd src/server
 $ node index.js
