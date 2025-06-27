@@ -9,6 +9,14 @@ An AI Chrome extension designed to process user-selected text from a website or 
 
 ![video_demo](./docs/moodaing_video_demo.gif)
 
+## Use
+
+When using the extension, you can choose from three different context options in the subcontext menu:
+
+- **Use page:** Uses the URL of the current page as context for your query.
+- **Use selection:** Uses any text you have highlighted on the page as context.
+- **Discuss:** No context needed. A window will appear when summoned, allowing you to AI quick search freely.
+
 ## Tech Stack
 
 - React
