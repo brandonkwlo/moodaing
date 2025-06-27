@@ -1,5 +1,41 @@
-# Moodaing (project name in progress)
+<h1 align="center">
+<img src="./public/hippo.png" alt="moodaing" width="200">
+<br>
+Moodaing
+</br>
+</h1>
 
-## Moodaing
+An AI Chrome extension designed to process user-selected text from a website or a page itself for snappy searches. Use it to explore more about what you're reading or if you're too lazy to switch tabs to the ChatGPT website.
 
-An AI Chrome extension designed to process user-selected text from a website or provide snappy AI searches. It offers three functionalities: searching for related information, summarizing the selected content, or engaging in a discussion about it. Its purpose is to facilitate quick information retrieval and exploration of subjects or topics. This tool highlights text exclusively, not other media (at this time of writing).
+![video_demo](./docs/moodaing_video_demo.gif)
+
+## Tech Stack
+
+- React
+- Vite
+- Chrome Extensions API
+- TypeScript
+- JavaScript
+- HTML & CSS
+- Groq API
+
+## Setup
+
+To clone the repository and use it, you will need [Node.js](https://nodejs.org/en/download/). Then:
+
+```bash
+# Clone the repository
+$ git clone https://github.com/brandonkwlo/moodaing.git
+
+# Go into repository
+$ cd moodaing
+
+# Install dependencies
+$ npm install
+
+# Run the backend server to run Groq
+$ cd src/server
+$ node index.js
+```
+
+Go to the Chrome Browser where you will navigate to the extension page within Chrome settings. Here, enable "developer mode", then click "Load unpacked" and select the "dist/" folder of the project.
